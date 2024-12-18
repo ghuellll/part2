@@ -2,14 +2,20 @@
 
 class puppetmonitor{
 
-package { ['vim', 'curl', 'git']:
+ package { ['vim', 'curl', 'git']:
   ensure =>installed,
-}
+ }
 
-user { 'monitor':
+ user { 'monitor':
   ensure     => present,
   home       => '/home/monitor',
   managehome => true,
   shell      => '/bin/bash',
  }
-}
+
+ file { '/home/monitor/scripts':
+   ensure => directory,
+   owner => 'monitor',
+   group => 'monitor',
+   mode  => '0755',
+ }   
