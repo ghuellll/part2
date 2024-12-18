@@ -26,4 +26,19 @@ class puppetmonitor{
    group   => 'monitor',
    require =>  File['/home/monitor/scripts'],
  } 
-}   
+  
+ file { '/home/monitor/src/my_memory_check':
+   ensure => 'link',
+   target => '/home/monitor/scripts/memory_check',
+   owner  => 'monitor',
+   group  => 'monitor',
+ }
+ 
+ cron { 'memory_check_cron':
+   ensure => 'present',
+   command => '/home/monitor/src/my_memory_check',
+   user => 'monitor',
+   minute => '*/10',
+ }
+}
+   
