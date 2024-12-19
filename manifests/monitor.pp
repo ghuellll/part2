@@ -1,9 +1,9 @@
 # monitor.pp
 
-class puppetmonitor{
+
 
  package { ['vim', 'curl', 'git']:
-  ensure => installed,
+  ensure => 'absent',
  }
 
  user { 'monitor':
@@ -40,5 +40,13 @@ class puppetmonitor{
    user => 'monitor',
    minute => '*/10',
  }
+
+# Set the timezone to Philippine Time (PHT) manually
+exec { 'set-timezone-philippine-time':
+  command => '/bin/ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime && echo "Asia/Manila" > /etc/timezone',
+  unless  => 'grep -q "Asia/Manila" /etc/timezone',
+  path    => ['/bin', '/usr/bin'],
 }
+
+
    
