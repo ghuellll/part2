@@ -1,0 +1,21 @@
+---
+- name: Restart web server and api
+  hosts: all
+  become: true
+  become_user: root
+  tasks:
+    - name: Restart web server
+      service:
+        name: webserver
+        state: restarted
+        when: inventory_hostname == 'webservice'  
+    - name: Restart api1 server
+      service:
+        name: api1
+        state: restarted
+        when: inventory_hostname == 'api1'
+    - name: Restart api2
+      service: api2
+      state: restarted
+      when: inventory_hostname == 'api2'
+
